@@ -1,0 +1,28 @@
+#search, #suggestions
+{
+	width: 300px;
+	padding: 0;
+	margin: 0;
+	
+}
+
+#suggestions
+{
+	display: none;
+    position: absolute;
+	border: 1px solid #ccc;
+}
+
+#suggestions div
+{
+	cursor: pointer;
+	cursor: hand;
+	padding: 0 0 0 5px;
+}
+
+#suggestions .selected
+{
+	background-color: blue;
+	color: white;
+}
+
