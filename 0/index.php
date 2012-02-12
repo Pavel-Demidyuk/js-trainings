@@ -4,14 +4,14 @@
 <html>
 <head>
 	<title>autocomplete</title>
-	<link rel='stylesheet' type='text/css' href='style.css'>
-	<script src='script.js'></script>
+	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-<form id='searchForm' method='get' action=''>
-	<input type=hidden id='selectedValue' name='selectedValue' autocomplete='off'>
-	<input id='search' type='text'>
+<form id="searchForm" method="get" action="">
+	<input type=hidden id="selectedValue" name="selectedValue">
+	<input id="search" type="text" autocomplete="off">
 </form>
-<div id='suggestions'></div>
+<div id="suggestions"></div>
+<script src="script.js"></script>
 </body>
 </html>

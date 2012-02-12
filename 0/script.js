@@ -1,52 +1,9 @@
 /**
- * Id of search box.
- */
-SEARCHBOX_ID = 'search';
-
-/**
- * Id of hidden selected field.
- */
-SELECTED_VALUE_BOX_ID = 'selectedValue';
-
-/**
- * Form id.
- */
-SEARCH_FORM_ID = 'searchForm';
-
-/**
- * Id of block with suggestions.
- */
-SUGGESTIONS_ID = 'suggestions';
-
-/**
- * Bool if send ids.
- */
-SEND_IDS = true;
-
-/**
- * Source url.
- */
-REQUEST_URL = 'http://javascript-training.gametrailers.minsk.epam.com/jstraning/countries.php?q=';
-
-/**
- * Request method.
- */
-REQUEST_METHOD = 'GET';
-
-/**
- * Minimum input length before search.
- */
-MINIMUM_INPUT_LENGTH = 3;
-
-/**
  * 
  */	
 window.onload = function()
 {
-	var searchBox = document.getElementById(SEARCHBOX_ID);
-	var selectedBox = document.getElementById(SELECTED_VALUE_BOX_ID);
-	var searchForm = document.getElementById(SEARCH_FORM_ID);
-	new suggestionsControl(searchBox, selectedBox, searchForm);
+	new suggestionsControl();
 }
 
 /**
@@ -55,11 +12,11 @@ window.onload = function()
  * @param searchForm
  * @returns {suggestionsControl}
  */
-function suggestionsControl(searchBox, selectedBox, searchForm) {
-	this.suggestionsDiv = document.getElementById(SUGGESTIONS_ID);
-    this.searchBox = searchBox;
-    this.selectedBox = selectedBox;
-    this.searchForm = searchForm;
+function suggestionsControl() {
+	this.suggestionsDiv = document.getElementById('suggestions');
+    this.searchBox = document.getElementById('search');
+    this.selectedBox = document.getElementById('selectedValue');
+    this.searchForm = document.getElementById('searchForm');
     this.currentSuggestionNumber = -1;
     this.suggestionsNodesList = {};
     this.suggestionsList = {}
@@ -71,6 +28,26 @@ function suggestionsControl(searchBox, selectedBox, searchForm) {
  */
 suggestionsControl.prototype.init = function () 
 {
+	/**
+	 * Bool if send ids.
+	 */
+	suggestionsControl.prototype.SEND_IDS = true;
+
+	/**
+	 * Source url.
+	 */
+	suggestionsControl.prototype.REQUEST_URL = 'http://javascript-training.gametrailers.minsk.epam.com/jstraning/countries.php?q=';
+
+	/**
+	 * Request method.
+	 */
+	suggestionsControl.prototype.REQUEST_METHOD = 'GET';
+
+	/**
+	 * Minimum input length before search.
+	 */
+	suggestionsControl.prototype.MINIMUM_INPUT_LENGTH = 3;
+	
 	var This = this;
 	
 	this.searchBox.onkeyup = function (event) 
@@ -106,7 +83,7 @@ suggestionsControl.prototype.handleKeyUp = function (event)
             return;
             
         case 8: //backspace. this one should be last, do not return after that
-        	if(this.searchBox.value.length <= MINIMUM_INPUT_LENGTH)
+        	if(this.searchBox.value.length <= this.MINIMUM_INPUT_LENGTH)
     		{
         		this.hideSuggestions();
     		}
@@ -121,7 +98,7 @@ suggestionsControl.prototype.handleKeyUp = function (event)
  */
 suggestionsControl.prototype.handleSubmit = function()
 {
-	if (!SEND_IDS)
+	if (!this.SEND_IDS)
 	{
 		this.selectedBox.value = this.searchBox.value;
 	}
@@ -134,7 +111,7 @@ suggestionsControl.prototype.handleSubmit = function()
 suggestionsControl.prototype.search = function () 
 {
 	var textToSearch = this.searchBox.value;
-	if (textToSearch.length < MINIMUM_INPUT_LENGTH)
+	if (textToSearch.length < this.MINIMUM_INPUT_LENGTH)
 	{
 		return;
 	}
@@ -149,10 +126,10 @@ suggestionsControl.prototype.search = function ()
 suggestionsControl.prototype.processRequest = function(searchText)
 {
 	var This = this;
-	var requestUrl = REQUEST_URL + searchText;
+	var requestUrl = this.REQUEST_URL + searchText;
 	
 	xmlhttp=new XMLHttpRequest();
-	xmlhttp.open(REQUEST_METHOD, requestUrl, true);
+	xmlhttp.open(this.REQUEST_METHOD, requestUrl, true);
 	xmlhttp.onreadystatechange=function() {
 		if (xmlhttp.readyState==4) 
 		{
@@ -216,7 +193,6 @@ suggestionsControl.prototype.addSuggestion = function(suggestion, i)
  */
 suggestionsControl.prototype.nextSuggestion = function()
 {
-	console.log(this.currentSuggestionNumber);
 	this.fillForm(this.suggestionsList[this.nextSuggestionNumber()]);
 	this.highlightSuggestion(this.nextSuggestionNumber());
 }
@@ -352,7 +328,7 @@ suggestionsControl.prototype.fillForm = function(suggestion)
 	}
 	
 	this.searchBox.value = suggestion.shortName;
-	if (SEND_IDS)
+	if (this.SEND_IDS)
 	{
 		this.selectedBox.value = suggestion.id;
 	}
